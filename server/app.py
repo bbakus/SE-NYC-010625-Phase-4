@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import ipdb
+from models import Hotel
 
 # make_response() is a function from the flask library that returns a Response object. We can include data (a list, dictionary, or string) and a status code and pass these in as arguments to the make_response() function. We can return a Response object from a Flask view.
 from flask import Flask, make_response
@@ -24,6 +25,14 @@ migrate = Migrate(app, db)
 
 # initialize the Flask application to use the database
 db.init_app(app)
+
+
+#deliverable #3 solution
+@app.route('/hotels')
+def get_hotels():
+    hotels = Hotel.query.all()
+    response_body = [hotel.to_dict for hotel in hotels]
+    return make_response(response_body, 200)
 
 if __name__ == "__main__":
     app.run(port=7777, debug=True)
